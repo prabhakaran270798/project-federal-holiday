@@ -1,223 +1,112 @@
-# Federal Holiday API
+# Project Federal Holiday API
 
-## Overview
+A lightweight Spring Boot REST service for managing federal holidays across **USA** and **CANADA** — add, update, list, filter by country, bulk-import via CSV, and delete.
 
-Federal Holiday Project is a RESTful Spring Boot application that provides APIs to manage federal holidays for different countries.
-
-The application supports:
-
-1. Add federal holidays
-2. Update existing holidays
-3. List all holidays
-4. Fetch holidays by country
-5. Upload holidays through CSV file
-6. Delete holidays
-
-Currently supported countries:
-
-- USA
-- CANADA
-
-The application is designed using clean architecture principles and follows standard Spring Boot practices with controller, service, repository, DTO, and exception handling layers.
+Built with a clean layered design: `controller → service → repository`, backed by an in-memory H2 database and documented with Swagger.
 
 ---
 
-# Technology Stack
+## Quick Start
 
-- Java 17
-- Spring Boot 4.1.0
-- Spring Web
-- Spring Data JPA
-- Hibernate
-- H2 Database
-- Maven
-- Swagger OpenAPI
-- JUnit 5
-- Mockito
-- JaCoCo
+```bash
+git clone https://github.com/prabhakaran270798/project-federal-holiday.git
+cd project-federal-holiday
+mvn spring-boot:run
+```
 
----
+App runs at **http://localhost:8080**
 
-# Project Structure
+| Tool | URL |
+|------|-----|
+| Swagger UI | http://localhost:8080/swagger-ui/index.html |
+| H2 Console | http://localhost:8080/h2-console |
 
+> H2 connection → URL: `jdbc:h2:mem:holidaydb` · User: `sa` · Password: *(blank)*
 
-src
- ├── main
- │    └── java
- │         └── com.demo.federalholidayproject
- │              ├── controller
- │              ├── service
- │              ├── repository
- │              ├── entity
- │              ├── dto
- │              ├── exception
- │              └── config
- │
- └── test
-      └── java
-           └── com.demo.federalholidayproject
-                ├── controller
-                └── service
-
-
-# Clone Repository
-
-Clone the repository: git clone https://github.com/prabhakaran270798/project-federal-holiday.git
-
-
-Navigate to project directory: cd project-federal-holiday
-
-
-# How to Run the Application
-
-## Prerequisites
-
-Install the following:
-
-- Java 17
-- Maven
-
-Verify installation:
-
-java -version
-mvn -version
-
-
-## Build Application
-Run: mvn clean install
-
-
-## Start Application
-Run:mvn spring-boot:run
-
-Application will start at: http://localhost:8080
-
-
-# Database Details
-
-The application uses **H2 in-memory database**.
-
-The assignment allows usage of an in-memory datastore. H2 was selected to simplify local execution without requiring any external database installation or Docker setup.
-
-Database details:
-==================
-Database URL: jdbc:h2:mem:holidaydb
-Username:sa
-Password:(empty)
-H2 Console: http://localhost:8080/h2-console
-JDBC URL in H2 Console: jdbc:h2:mem:holidaydb
-
-
-# Swagger Documentation
-Swagger UI is available at:http://localhost:8080/swagger-ui/index.html
-
-Swagger provides API documentation and allows testing APIs directly from the browser.
+**Requirements:** Java 17 · Maven
 
 ---
 
-# API Endpoints
+## What You Can Do
 
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | /api/holidays/addHolidays | Add a holiday |
-| GET | /api/holidays/getAllHolidays | Get all holidays |
-| GET | /api/holidays/getHolidays/country/{country} | Get holidays by country |
-| PUT | /api/holidays/updateHolidays/{id} | Update holiday |
-| DELETE | /api/holidays/deleteHolidays/{id} | Delete holiday |
-| POST | /api/holidays/uploadCSV/upload | Upload CSV file |
+| # | Action | Endpoint |
+|---|--------|----------|
+| 1 | Add a holiday | `POST /api/holidays/addHolidays` |
+| 2 | List all holidays | `GET /api/holidays/getAllHolidays` |
+| 3 | Filter by country | `GET /api/holidays/getHolidays/country/{country}` |
+| 4 | Update a holiday | `PUT /api/holidays/updateHolidays/{id}` |
+| 5 | Delete a holiday | `DELETE /api/holidays/deleteHolidays/{id}` |
+| 6 | Bulk import via CSV | `POST /api/holidays/uploadCSV/upload` |
 
----
+### Sample Payload
 
-# API Details
-
-## Add Holiday
-Endpoint: POST /api/holidays/addHolidays
-
-Request:
-
-json
+```json
 {
   "country": "USA",
   "name": "Independence Day",
   "date": "2026-07-04"
 }
+```
 
-Date format: yyyy-MM-dd
+### CSV Format (for bulk upload)
 
-
-## Get All Holidays
-Endpoint: GET /api/holidays/getAllHolidays
-
-## Get Holidays By Country
-Endpoint: GET /api/holidays/getHolidays/country/{country}
-Example: GET /api/holidays/getHolidays/country/USA
-
-
-## Update Holiday
-Endpoint: PUT /api/holidays/updateHolidays/{id}
-Example: PUT /apiholidays//updateHolidays/1
-
-
-## Delete Holiday
-Endpoint: DELETE /api/holidays/deleteHolidays/{id}
-Example: DELETE /api/holidays/deleteHolidays/1
-
-
-## Upload Holidays Using CSV
-Endpoint:POST /api/holidays/uploadCSV
-Request type: multipart/form-data
-Parameter:file
-
-CSV format:
-csv
+```csv
 country,name,date
 USA,Independence Day,2026-07-04
 CANADA,Canada Day,2026-07-01
+```
 
+*Upload as `multipart/form-data` with the field name `file`.*
 
-# Validation Rules
+---
 
-- Country is mandatory
-- Holiday name is mandatory
-- Holiday date is mandatory
-- Date format should be `yyyy-MM-dd`
+## Rules & Validation
 
-# Exception Handling
+- `country`, `name`, and `date` are all **required**
+- `date` must follow the `yyyy-MM-dd` format
+- Only `USA` and `CANADA` are accepted countries
 
-The application implements global exception handling for:
+Errors are handled centrally (global exception handler) and returned as clean responses for: holiday not found, invalid CSV upload, validation failures, and bad input.
 
-- Holiday not found
-- Invalid file upload
-- Validation errors
-- Invalid input data
+---
 
+## Tech Stack
 
-# Postman Collection
+`Java 17` · `Spring Boot` · `Spring Web` · `Spring Data JPA` · `Hibernate` · `H2` · `Maven` · `Swagger/OpenAPI` · `JUnit 5` · `Mockito` · `JaCoCo`
 
-A Postman collection is provided for testing all APIs.
-Location: Postman/Federal Holiday API.postman_collection.json
-Import this collection into Postman to execute API requests.
+---
 
+## Testing & Coverage
 
+```bash
+mvn clean test
+```
 
-# Testing
+- Frameworks: JUnit 5, Mockito, MockMvc
+- Coverage tool: JaCoCo → report at `target/site/jacoco/index.html`
+- Current coverage: **87%**
 
-Testing frameworks:
+---
 
-- JUnit 5
-- Mockito
-- MockMvc
+## Project Layout
 
-Run tests: mvn clean test
+```
+src/main/java/com/demo/projectfederalholiday
+ ├── controller   → REST endpoints
+ ├── service      → business logic
+ ├── repository   → data access (JPA)
+ ├── entity       → JPA entities
+ ├── dto          → request/response models
+ ├── exception    → global error handling
+ └── config       → Swagger & app config
+```
 
+---
 
-# Code Coverage
+## Postman
 
-JaCoCo is configured for test coverage reporting.
-Generate coverage report: mvn clean test
-Coverage report location: target/site/jacoco/index.html
-Current test coverage:87%
+Import `Postman/Project Federal Holiday API.postman_collection.json` to try every endpoint instantly.
 
+---
 
-# Author
-Prabhakaran Kumar
+**Author:** Prabhakaran Kumar
