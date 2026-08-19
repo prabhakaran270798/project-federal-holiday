@@ -47,26 +47,26 @@ public class HolidayServiceImplTest {
     @Test
     void shouldAddHolidaySuccessfully() {
 
-        FederalHolidayRequest request = new FederalHolidayRequest(Country.USA, "Independence Day", LocalDate.of(2026, 7, 4));
-        Holiday holiday = Holiday.builder()
+        FederalHolidayRequest request = new FederalHolidayRequest(FederalCountry.USA, "Independence Day", LocalDate.of(2026, 7, 4));
+        FederalHoliday holiday = FederalHoliday.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Independence Day")
                 .date(LocalDate.of(2026, 7, 4))
                 .build();
-        when(holidayRepository.save(any(Holiday.class))).thenReturn(holiday);
+        when(holidayRepository.save(any(FederalHoliday.class))).thenReturn(holiday);
         FederalHolidayResponse response = holidayService.addHoliday(request);
         assertNotNull(response);
         assertEquals("Independence Day", response.getName());
-        assertEquals(Country.USA, response.getCountry());
-        verify(holidayRepository, times(1)).save(any(Holiday.class));
+        assertEquals(FederalCountry.USA, response.getCountry());
+        verify(holidayRepository, times(1)).save(any(FederalHoliday.class));
     }
 
     @Test
     void shouldReturnAllHolidays() {
-        Holiday holiday = Holiday.builder()
+    	FederalHoliday holiday = FederalHoliday.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Christmas")
                 .date(LocalDate.of(2026, 12, 25))
                 .build();
@@ -79,31 +79,31 @@ public class HolidayServiceImplTest {
 
     @Test
     void shouldReturnHolidaysByCountry() {
-        Holiday holiday = Holiday.builder()
+    	FederalHoliday holiday = FederalHoliday.builder()
                 .id(1L)
-                .country(Country.CANADA)
+                .country(FederalCountry.CANADA)
                 .name("Canada Day")
                 .date(LocalDate.of(2026, 7, 1))
                 .build();
-        when(holidayRepository.findByCountry(Country.CANADA)).thenReturn(List.of(holiday));
-        List<FederalHolidayResponse> response = holidayService.getHolidaysByCountry(Country.CANADA);
+        when(holidayRepository.findByCountry(FederalCountry.CANADA)).thenReturn(List.of(holiday));
+        List<FederalHolidayResponse> response = holidayService.getHolidaysByCountry(FederalCountry.CANADA);
         assertEquals(1, response.size());
-        assertEquals(Country.CANADA, response.get(0).getCountry());
+        assertEquals(FederalCountry.CANADA, response.get(0).getCountry());
     }
 
     @Test
     void shouldUpdateHolidaySuccessfully() {
         Long id = 1L;
-        Holiday existingHoliday = Holiday.builder()
+        FederalHoliday existingHoliday = FederalHoliday.builder()
                 .id(id)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Old Name")
                 .date(LocalDate.of(2026, 1, 1))
                 .build();
 
-        FederalHolidayRequest request = new FederalHolidayRequest(Country.USA, "New Name", LocalDate.of(2026, 12, 25));
+        FederalHolidayRequest request = new FederalHolidayRequest(FederalCountry.USA, "New Name", LocalDate.of(2026, 12, 25));
         when(holidayRepository.findById(id)).thenReturn(Optional.of(existingHoliday));
-        when(holidayRepository.save(any(Holiday.class))).thenReturn(existingHoliday);
+        when(holidayRepository.save(any(FederalHoliday.class))).thenReturn(existingHoliday);
         FederalHolidayResponse response = holidayService.updateHoliday(id, request);
         assertEquals("New Name", response.getName());
         verify(holidayRepository).save(existingHoliday);
@@ -115,15 +115,15 @@ public class HolidayServiceImplTest {
         assertThrows(
                 HolidayNotFoundException.class,
                 () -> holidayService.updateHoliday(100L,
-                        new FederalHolidayRequest(Country.USA, "Test", LocalDate.now()))
+                        new FederalHolidayRequest(FederalCountry.USA, "Test", LocalDate.now()))
         );
     }
 
     @Test
     void shouldDeleteHolidaySuccessfully() {
-        Holiday holiday = Holiday.builder()
+    	FederalHoliday holiday = FederalHoliday.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Christmas")
                 .date(LocalDate.of(2026, 12, 25))
                 .build();
@@ -164,8 +164,8 @@ public class HolidayServiceImplTest {
     
     @Test
     void shouldNotAddDuplicateHoliday() {
-        FederalHolidayRequest request = new FederalHolidayRequest(Country.USA,"Independence Day",LocalDate.of(2026,7,4));
-        when(holidayRepository.existsByCountryAndNameAndDate(Country.USA,"Independence Day",LocalDate.of(2026,7,4))).thenReturn(true);
+        FederalHolidayRequest request = new FederalHolidayRequest(FederalCountry.USA,"Independence Day",LocalDate.of(2026,7,4));
+        when(holidayRepository.existsByCountryAndNameAndDate(FederalCountry.USA,"Independence Day",LocalDate.of(2026,7,4))).thenReturn(true);
         assertThrows(DuplicateHolidayException.class,() -> holidayService.addHoliday(request));
     }
 

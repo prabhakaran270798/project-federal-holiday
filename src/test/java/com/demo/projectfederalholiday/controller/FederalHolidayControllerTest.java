@@ -45,7 +45,7 @@ public class FederalHolidayControllerTest {
     void shouldGetAllHolidays() throws Exception {
         FederalHolidayResponse response = FederalHolidayResponse.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Christmas")
                 .date(LocalDate.of(2026, 12, 25))
                 .build();
@@ -57,10 +57,10 @@ public class FederalHolidayControllerTest {
 
     @Test
     void shouldCreateHoliday() throws Exception {
-        FederalHolidayRequest request = new FederalHolidayRequest(Country.USA, "Christmas", LocalDate.of(2026, 12, 25));
+        FederalHolidayRequest request = new FederalHolidayRequest(FederalCountry.USA, "Christmas", LocalDate.of(2026, 12, 25));
         FederalHolidayResponse response = FederalHolidayResponse.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Christmas")
                 .date(LocalDate.of(2026, 12, 25))
                 .build();
@@ -75,11 +75,11 @@ public class FederalHolidayControllerTest {
     void shouldGetHolidaysByCountry() throws Exception {
         FederalHolidayResponse response = FederalHolidayResponse.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Independence Day")
                 .date(LocalDate.of(2026, 7, 4))
                 .build();
-        when(holidayService.getHolidaysByCountry(Country.USA)).thenReturn(List.of(response));
+        when(holidayService.getHolidaysByCountry(FederalCountry.USA)).thenReturn(List.of(response));
         mockMvc.perform(get("/api/holidays/country/USA"))
                 .andExpect(status().isOk());
 
@@ -87,10 +87,10 @@ public class FederalHolidayControllerTest {
 
     @Test
     void shouldUpdateHoliday() throws Exception {
-        FederalHolidayRequest request = new FederalHolidayRequest(Country.USA, "Updated Holiday", LocalDate.of(2026, 7, 4));
+        FederalHolidayRequest request = new FederalHolidayRequest(FederalCountry.USA, "Updated Holiday", LocalDate.of(2026, 7, 4));
         FederalHolidayResponse response = FederalHolidayResponse.builder()
                 .id(1L)
-                .country(Country.USA)
+                .country(FederalCountry.USA)
                 .name("Updated Holiday")
                 .date(LocalDate.of(2026, 7, 4))
                 .build();
@@ -128,7 +128,7 @@ public class FederalHolidayControllerTest {
 
     @Test
     void shouldReturn404WhenHolidayNotFound() throws Exception {
-        when(holidayService.getHolidaysByCountry(Country.USA))
+        when(holidayService.getHolidaysByCountry(FederalCountry.USA))
                 .thenThrow(
                         new HolidayNotFoundException("No holidays found")
                 );

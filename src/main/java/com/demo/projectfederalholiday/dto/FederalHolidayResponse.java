@@ -21,7 +21,7 @@ public class FederalHolidayResponse {
 
     private Long id;
 
-    private Country country;
+    private FederalCountry country;
 
     private String name;
 

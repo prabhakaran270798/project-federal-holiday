@@ -21,7 +21,7 @@ public interface FederalHolidayService {
 
     List<FederalHolidayResponse> getAllHolidays();
 
-    List<FederalHolidayResponse> getHolidaysByCountry(Country country);
+    List<FederalHolidayResponse> getHolidaysByCountry(FederalCountry country);
 
     FederalHolidayResponse updateHoliday(Long id, FederalHolidayRequest request);
 

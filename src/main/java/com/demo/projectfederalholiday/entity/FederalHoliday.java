@@ -26,7 +26,7 @@ public class FederalHoliday {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Country country;
+    private FederalCountry country;
 
     @Column(nullable = false)
     private String name;

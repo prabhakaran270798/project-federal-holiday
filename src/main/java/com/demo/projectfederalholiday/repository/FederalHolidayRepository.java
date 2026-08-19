@@ -17,11 +17,11 @@ import java.util.List;
  * @author Prabhakaran
  */
 @Repository
-public interface FederalHolidayRepository extends JpaRepository<Holiday, Long> {
+public interface FederalHolidayRepository extends JpaRepository<FederalHoliday, Long> {
 
-    List<Holiday> findByCountry(Country country);
+    List<FederalHoliday> findByCountry(FederalCountry country);
     
-    boolean existsByCountryAndNameAndDate(Country country, String name, LocalDate date);
+    boolean existsByCountryAndNameAndDate(FederalCountry country, String name, LocalDate date);
     
-    boolean existsByCountryAndNameAndDateAndIdNot(Country country, String name,LocalDate date, Long id );
+    boolean existsByCountryAndNameAndDateAndIdNot(FederalCountry country, String name,LocalDate date, Long id );
 }

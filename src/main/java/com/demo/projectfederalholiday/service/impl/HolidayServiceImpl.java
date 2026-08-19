@@ -41,30 +41,30 @@ public class HolidayServiceImpl implements HolidayService {
         if (holidayRepository.existsByCountryAndNameAndDate(request.getCountry(),request.getName(),request.getDate())) {
             throw new DuplicateHolidayException("Holiday already exists for the given country, name and date" );
         }
-        Holiday holiday = Holiday.builder()
+        FederalHoliday holiday = FederalHoliday.builder()
                 .country(request.getCountry())
                 .name(request.getName())
                 .date(request.getDate())
                 .build();
-        Holiday savedHoliday = holidayRepository.save(holiday);
+        FederalHoliday savedHoliday = holidayRepository.save(holiday);
         return mapToResponse(savedHoliday);
     }
 
     @Override
     public List<FederalHolidayResponse> getAllHolidays() {
-        List<Holiday> holidays = holidayRepository.findAll();
+        List<FederalHoliday> holidays = holidayRepository.findAll();
         return holidays.stream().map(this::mapToResponse).toList();
     }
 
     @Override
-    public List<FederalHolidayResponse> getHolidaysByCountry(Country country) {
-        List<Holiday> holidays = holidayRepository.findByCountry(country);
+    public List<FederalHolidayResponse> getHolidaysByCountry(FederalCountry country) {
+        List<FederalHoliday> holidays = holidayRepository.findByCountry(country);
         return holidays.stream().map(this::mapToResponse).toList();
     }
 
     @Override
     public FederalHolidayResponse updateHoliday(Long id, FederalHolidayRequest request) {
-        Holiday holiday = holidayRepository.findById(id)
+    	FederalHoliday holiday = holidayRepository.findById(id)
                 .orElseThrow(()
                         -> new HolidayNotFoundException("Holiday not found with id: " + id)
                 );
@@ -82,7 +82,7 @@ public class HolidayServiceImpl implements HolidayService {
     @Override
     @Transactional
     public int uploadHolidays(MultipartFile file) {
-        List<Holiday> holidays = new ArrayList<>();
+        List<FederalHoliday> holidays = new ArrayList<>();
         if (file == null || file.isEmpty()) {
             throw new FileUploadException("Uploaded file is empty");
         }
@@ -91,7 +91,7 @@ public class HolidayServiceImpl implements HolidayService {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
-                Country country = Country.valueOf(data[0].trim().toUpperCase());
+                FederalCountry country = FederalCountry.valueOf(data[0].trim().toUpperCase());
                 String name = data[1].trim();
                 LocalDate date = LocalDate.parse(data[2].trim());
                 if (holidayRepository.existsByCountryAndNameAndDate(country,name,date)) {
@@ -106,8 +106,8 @@ public class HolidayServiceImpl implements HolidayService {
                 if (duplicateInFile) {
                 	 throw new DuplicateHolidayException("Holiday already exists: " + name);
                 }
-                Holiday holiday = Holiday.builder()
-                        .country(Country.valueOf(data[0].trim().toUpperCase()))
+                FederalHoliday holiday = Holiday.builder()
+                        .country(FederalCountry.valueOf(data[0].trim().toUpperCase()))
                         .name(data[1].trim())
                         .date(LocalDate.parse(data[2].trim()))
                         .build();
@@ -123,7 +123,7 @@ public class HolidayServiceImpl implements HolidayService {
 
     @Override
     public void deleteHoliday(Long id) {
-        Holiday holiday = holidayRepository.findById(id)
+    	FederalHoliday holiday = holidayRepository.findById(id)
                 .orElseThrow(()
                         -> new HolidayNotFoundException(
                         "Holiday not found with id: " + id
@@ -131,7 +131,7 @@ public class HolidayServiceImpl implements HolidayService {
         holidayRepository.delete(holiday);
     }
 
-    private FederalHolidayResponse mapToResponse(Holiday holiday) {
+    private FederalHolidayResponse mapToResponse(FederalHoliday holiday) {
         return FederalHolidayResponse.builder()
                 .id(holiday.getId())
                 .country(holiday.getCountry())

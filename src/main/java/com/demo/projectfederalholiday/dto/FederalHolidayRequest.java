@@ -22,7 +22,7 @@ import lombok.*;
 public class FederalHolidayRequest {
 
     @NotNull(message = "Federal Country is required")
-    private Country country;
+    private FederalCountry country;
 
     @NotBlank(message = "Federal Holiday name is required")
     private String name;
