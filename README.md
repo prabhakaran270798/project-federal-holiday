@@ -84,7 +84,7 @@ mvn clean test
 
 - Frameworks: JUnit 5, Mockito, MockMvc
 - Coverage tool: JaCoCo → report at `target/site/jacoco/index.html`
-- Current coverage: **87%**
+- Current coverage: **93%**
 
 ---
 
