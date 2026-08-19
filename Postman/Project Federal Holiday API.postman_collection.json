@@ -1,0 +1,188 @@
+{
+  "info": {
+    "_postman_id": "9i876432-7a08-4fd0-be14-523fd2dd92a2",
+    "name": "Project Federal Holiday API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "57148702",
+    "_collection_link": "https://go.postman.co/collection/9i876432-3e278432-7a08-4fd0-be14-523yhd8d92a2?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Get all Holidays",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/getAllHolidays",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "getAllHolidays"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Holiday",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Thanksgiving Day\",\r\n    \"country\": \"USA\",\r\n    \"date\": \"2026-11-26\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/addHolidays",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "addHolidays"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get holidays By USA",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/getHolidays/country/USA",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "getHolidays",
+            "country",
+            "USA"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update Holiday",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Labor Day\",\r\n    \"country\": \"USA\",\r\n    \"date\": \"2026-09-07\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/updateHolidays/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "updateHolidays",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Upload Holiday",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "file",
+              "type": "file"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/uploadCSV/upload",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "uploadCSV",
+            "upload"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete Holiday",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/deleteHolidays/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "deleteHolidays",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Holidays By CANADA",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/getHolidays/country/CANADA",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "getHolidays",
+            "country",
+            "CANADA"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
