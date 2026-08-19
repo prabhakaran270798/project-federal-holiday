@@ -1,4 +1,4 @@
-# Project Federal Holiday API
+# Project Federal Holiday
 
 A lightweight Spring Boot REST service for managing federal holidays across **USA** and **CANADA** — add, update, list, filter by country, bulk-import via CSV, and delete.
 
